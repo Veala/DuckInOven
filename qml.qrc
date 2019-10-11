@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>BaseButton.qml</file>
+        <file>DefaultStatePanel.qml</file>
+        <file>BasePanel.qml</file>
+        <file>CookBookPanel.qml</file>
+    </qresource>
+</RCC>
