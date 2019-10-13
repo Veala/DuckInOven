@@ -3,17 +3,11 @@ import QtQuick.Window 2.2
 
 Window {
     visible: true
-    width: 500
-    height: 200
-    property var centralComponent
-    property var centralObject
+    width: 1000
+    height: 400
 
     Component.onCompleted: {
-        centralComponent = Qt.createComponent("qrc:/DefaultStatePanel.qml");
-        if(centralComponent.status === Component.Ready)
-            centralObject = centralComponent.createObject(centralPanel);
-        else if (centralComponent.status === Component.Error)
-           console.log("Error loading component:", component.errorString());
+        centralPanelLoader.source = "qrc:/DefaultStatePanel.qml";
     }
 
     Rectangle {
@@ -39,7 +33,19 @@ Window {
             anchors.horizontalCenterOffset: parent.width/4
             anchors.verticalCenterOffset: -parent.height/3
             onActivated: {
-                console.log(color)
+                if (centralPanelLoader.source.toString() !== "qrc:/DefaultStatePanel.qml") {
+                    if (centralPanelLoader.item.centralPanelLoader_2.source.toString() !== "qrc:/TabMenuPanel.qml") {
+                        centralPanelLoader.item.cameraButton.source = ""
+                        centralPanelLoader.item.nextOrCancelButton.source = "qrc:/BaseButton.qml"
+                        centralPanelLoader.item.centralPanelLoader_2.source = "qrc:/TabMenuPanel.qml"
+                        //centralPanelLoader.item.nextOrCancelButton.item.parent = centralPanelLoader.item.centralPanelLoader_2
+                    }
+                } else {
+                    centralPanelLoader.source = "qrc:/BasePanel.qml"
+                    centralPanelLoader.item.nextOrCancelButton.source = "qrc:/BaseButton.qml"
+                    centralPanelLoader.item.centralPanelLoader_2.source = "qrc:/TabMenuPanel.qml"
+                    //centralPanelLoader.item.nextOrCancelButton.item.parent = centralPanelLoader.item.centralPanelLoader_2
+                }
             }
         }
 
@@ -48,22 +54,35 @@ Window {
             color: "yellow"
             anchors.horizontalCenterOffset: parent.width/4
             onActivated: {
-                centralObject.destroy();
-                centralComponent = Qt.createComponent("qrc:/CookBookPanel.qml");
-                if(centralComponent.status === Component.Ready)
-                    centralObject = centralComponent.createObject(centralPanel);
-                else if (centralComponent.status === Component.Error)
-                   console.log("Error loading component:", component.errorString());
+                if (centralPanelLoader.source.toString() !== "qrc:/DefaultStatePanel.qml") {
+                    if (centralPanelLoader.item.centralPanelLoader_2.source.toString() !== "qrc:/CookBookPanel.qml") {
+                        centralPanelLoader.item.cameraButton.source = ""
+                        centralPanelLoader.item.nextOrCancelButton.source = ""
+                        centralPanelLoader.item.centralPanelLoader_2.source = "qrc:/CookBookPanel.qml"
+                    }
+                } else {
+                    centralPanelLoader.source = "qrc:/BasePanel.qml"
+                    centralPanelLoader.item.centralPanelLoader_2.source = "qrc:/CookBookPanel.qml"
+                }
             }
         }
 
         BaseButton {
-            id: moreItem
+            id: manualBakeItem
             color: "blue"
             anchors.horizontalCenterOffset: parent.width/4
             anchors.verticalCenterOffset: parent.height/3
             onActivated: {
-                console.log(color)
+                if (centralPanelLoader.source.toString() !== "qrc:/DefaultStatePanel.qml") {
+                    if (centralPanelLoader.item.centralPanelLoader_2.source.toString() !== "qrc:/ManualBakePanel.qml") {
+                        centralPanelLoader.item.cameraButton.source = ""
+                        centralPanelLoader.item.nextOrCancelButton.source = ""
+                        centralPanelLoader.item.centralPanelLoader_2.source = "qrc:/ManualBakePanel.qml"
+                    }
+                } else {
+                    centralPanelLoader.source = "qrc:/BasePanel.qml"
+                    centralPanelLoader.item.centralPanelLoader_2.source = "qrc:/ManualBakePanel.qml"
+                }
             }
         }
     }
@@ -125,11 +144,17 @@ Window {
         }
     }
 
-    Item {
+    Rectangle {
         id: centralPanel
+        color: "#2f2f2f"
+        anchors.right: rightPanel.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.left: leftPanel.right
-        anchors.right: rightPanel.left
+        Loader {
+            id: centralPanelLoader
+            anchors.fill: parent
+            //anchors.centerIn: parent
+        }
     }
 }

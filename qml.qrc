@@ -5,5 +5,11 @@
         <file>DefaultStatePanel.qml</file>
         <file>BasePanel.qml</file>
         <file>CookBookPanel.qml</file>
+        <file>ManualBakePanel.qml</file>
+        <file>TabMenuPanel.qml</file>
+        <file>TempSelector.qml</file>
+        <file>TimeNumPad.qml</file>
+        <file>NumPadButton.qml</file>
+        <file>TabButtonDIO.qml</file>
     </qresource>
 </RCC>
