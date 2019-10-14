@@ -2,18 +2,17 @@ import QtQuick 2.0
 
 Item {
     id: tempSelector
-    property var text: tempText.text
     property int temp
 
-    signal setTemp(var temp)
-    function getTemp(temp) {
+    function getTemp() {
+        temp = backend.temp
         tempText.text = slider.message.arg(temp)
         slider.x = (temp - 350)/(150/backgroundImage.width) + backgroundImage.x - slider.width/2
     }
 
-
     Component.onCompleted: {
-        text = "!!!!"
+        tempSelector.getTemp()
+        basePanel.setStatus("Status: temperature settings")
     }
 
     Item {
@@ -102,7 +101,6 @@ Item {
 
         Text {
             id: tempText
-            text: tempSelector.text
             font.pixelSize: 36
             anchors.top: slider.top
             anchors.left: parent.left
@@ -146,7 +144,7 @@ Item {
                     slider.x = backgroundImage.x+backgroundImage.width  - slider.width/2
                 temp = 350+(slider.x+slider.width/2 - backgroundImage.x) * 150/backgroundImage.width
                 tempText.text = slider.message.arg(temp)
-                tempSelector.setTemp(temp)
+                backend.temp = temp
             }
         }
     }

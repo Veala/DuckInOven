@@ -9,6 +9,15 @@ Item {
     function setLocalTime(time) {
         timeText.text = time
     }
+    Component.onCompleted: {
+        backend.sendLocalTime.connect(defaultStatePanel.setLocalTime)
+        backend.sendLocalDate.connect(defaultStatePanel.setLocalDate)
+    }
+
+    Component.onDestruction: {
+        backend.sendLocalTime.disconnect(defaultStatePanel.setLocalTime)
+        backend.sendLocalDate.disconnect(defaultStatePanel.setLocalDate)
+    }
 
     Text {
         id: timeText
@@ -20,7 +29,6 @@ Item {
         anchors.right: parent.right
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignBottom
-        //text: qsTr("hh:mm AP")
     }
     Text {
         id: dateText
@@ -32,6 +40,5 @@ Item {
         anchors.right: parent.right
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        //text: qsTr("dddd, MMMM yy")
     }
 }

@@ -5,7 +5,6 @@ Rectangle {
     border.width: 0
     radius: height/2
     property var txt: text.text
-    signal activated
     Component.onCompleted:  txt = "NEXT"
 
     Text {
@@ -20,6 +19,13 @@ Rectangle {
 
     MouseArea {
         anchors.fill: parent
-        onPressed:  parent.activated()
+        onPressed: {
+            if (txt === "NEXT") {
+                centralPanelLoader_2.item.nextButton()
+            } else {
+                centralPanel.load("DefaultStatePanel")
+            }
+
+        }
     }
 }

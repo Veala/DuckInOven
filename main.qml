@@ -7,30 +7,10 @@ Window {
     width: 1000
     height: 285
 
-    Component.onCompleted: {
-        centralPanelLoader.source = "qrc:/DefaultStatePanel.qml";
-        backend.sendTime.connect(centralPanelLoader.item.setLocalTime)
-        backend.sendDate.connect(centralPanelLoader.item.setLocalDate)
-    }
+    Component.onCompleted:  centralPanel.load("DefaultStatePanel")
 
     BackEnd {
         id: backend
-        function setTemp(temp) {
-            backend.temp = temp
-        }
-
-        function setTime(time) {
-            backend.time = time
-        }
-
-        onTempChanged: {
-            if (centralPanelLoader.item.centralPanelLoader_2.source.toString() === "qrc:/TabMenuPanel.qml")
-                centralPanelLoader.item.centralPanelLoader_2.item.temp = backend.temp
-        }
-        onTimeChanged: {
-            if (centralPanelLoader.item.centralPanelLoader_2.source.toString() === "qrc:/TabMenuPanel.qml")
-                centralPanelLoader.item.centralPanelLoader_2.item.time = backend.time
-        }
     }
 
     Rectangle {
@@ -45,34 +25,8 @@ Window {
             color: "red"
             height: parent.height/4
             anchors.horizontalCenterOffset: -parent.width/4
-            onActivated: {
-                if (centralPanelLoader.source.toString() !== "qrc:/DefaultStatePanel.qml") {
-                    if (centralPanelLoader.item.centralPanelLoader_2.source.toString() !== "qrc:/RunningPanel.qml") {
-                        //centralPanelLoader.item.cameraButton.source = ""
-
-                        centralPanelLoader.item.nextOrCancelButton.item.activated.disconnect(centralPanelLoader.item.centralPanelLoader_2.item.nextButton)
-                        centralPanelLoader.item.centralPanelLoader_2.item.running.disconnect(powerItem.activated)
-
-
-                        centralPanelLoader.item.nextOrCancelButton.source = "qrc:/BottomButton1.qml"
-                        centralPanelLoader.item.nextOrCancelButton.item.txt = "CANCEL"
-                        centralPanelLoader.item.cameraButton.source = "qrc:/BottomButton2.qml"
-                        centralPanelLoader.item.centralPanelLoader_2.source = "qrc:/RunningPanel.qml"
-                        //centralPanelLoader.item.nextOrCancelButton.item.parent = centralPanelLoader.item.centralPanelLoader_2
-                    }
-                } else {
-                    backend.sendTime.disconnect(centralPanelLoader.item.setLocalTime)
-                    backend.sendDate.disconnect(centralPanelLoader.item.setLocalDate)
-                    centralPanelLoader.source = "qrc:/BasePanel.qml"
-                    centralPanelLoader.item.nextOrCancelButton.source = "qrc:/BottomButton1.qml"
-                    centralPanelLoader.item.nextOrCancelButton.item.txt = "CANCEL"
-                    centralPanelLoader.item.cameraButton.source = "qrc:/BottomButton2.qml"
-                    centralPanelLoader.item.centralPanelLoader_2.source = "qrc:/RunningPanel.qml"
-                    backend.sendTime.connect(centralPanelLoader.item.setLocalTime)
-
-                    //centralPanelLoader.item.nextOrCancelButton.item.parent = centralPanelLoader.item.centralPanelLoader_2
-                }
-            }
+            onActivated:
+                centralPanel.load("RunningPanel")
         }
 
         BaseButton {
@@ -80,71 +34,16 @@ Window {
             color: "green"
             anchors.horizontalCenterOffset: parent.width/4
             anchors.verticalCenterOffset: -parent.height/3
-            onActivated: {
-                if (centralPanelLoader.source.toString() !== "qrc:/DefaultStatePanel.qml") {
-                    if (centralPanelLoader.item.centralPanelLoader_2.source.toString() !== "qrc:/TabMenuPanel.qml") {
-                        centralPanelLoader.item.cameraButton.source = ""
-                        centralPanelLoader.item.nextOrCancelButton.source = "qrc:/BottomButton1.qml"
-                        centralPanelLoader.item.nextOrCancelButton.item.txt = "NEXT"
-                        centralPanelLoader.item.centralPanelLoader_2.source = "qrc:/TabMenuPanel.qml"
-
-
-                        centralPanelLoader.item.nextOrCancelButton.item.activated.connect(centralPanelLoader.item.centralPanelLoader_2.item.nextButton)
-                        centralPanelLoader.item.centralPanelLoader_2.item.running.connect(powerItem.activated)
-
-
-                        backend.sendTime.connect(centralPanelLoader.item.setLocalTime)
-                        centralPanelLoader.item.centralPanelLoader_2.item.setTime.connect(backend.setTime)
-                        centralPanelLoader.item.centralPanelLoader_2.item.setTemp.connect(backend.setTemp)
-                        centralPanelLoader.item.centralPanelLoader_2.item.time = backend.time
-                        centralPanelLoader.item.centralPanelLoader_2.item.temp = backend.temp
-                        //centralPanelLoader.item.nextOrCancelButton.item.parent = centralPanelLoader.item.centralPanelLoader_2
-                    }
-                } else {
-                    backend.sendTime.disconnect(centralPanelLoader.item.setLocalTime)
-                    backend.sendDate.disconnect(centralPanelLoader.item.setLocalDate)
-                    centralPanelLoader.source = "qrc:/BasePanel.qml"
-                    centralPanelLoader.item.nextOrCancelButton.source = "qrc:/BottomButton1.qml"
-                    centralPanelLoader.item.nextOrCancelButton.item.txt = "NEXT"
-                    centralPanelLoader.item.centralPanelLoader_2.source = "qrc:/TabMenuPanel.qml"
-
-
-                    centralPanelLoader.item.nextOrCancelButton.item.activated.connect(centralPanelLoader.item.centralPanelLoader_2.item.nextButton)
-                    centralPanelLoader.item.centralPanelLoader_2.item.running.connect(powerItem.activated)
-
-
-
-                    backend.sendTime.connect(centralPanelLoader.item.setLocalTime)
-                    centralPanelLoader.item.centralPanelLoader_2.item.setTime.connect(backend.setTime)
-                    centralPanelLoader.item.centralPanelLoader_2.item.setTemp.connect(backend.setTemp)
-                    centralPanelLoader.item.centralPanelLoader_2.item.time = backend.time
-                    centralPanelLoader.item.centralPanelLoader_2.item.temp = backend.temp
-
-                    //centralPanelLoader.item.nextOrCancelButton.item.parent = centralPanelLoader.item.centralPanelLoader_2
-                }
-            }
+            onActivated:
+                centralPanel.load("TabMenuPanel")
         }
 
         BaseButton {
             id: cookBookItem
             color: "yellow"
             anchors.horizontalCenterOffset: parent.width/4
-            onActivated: {
-                if (centralPanelLoader.source.toString() !== "qrc:/DefaultStatePanel.qml") {
-                    if (centralPanelLoader.item.centralPanelLoader_2.source.toString() !== "qrc:/CookBookPanel.qml") {
-                        centralPanelLoader.item.cameraButton.source = ""
-                        centralPanelLoader.item.nextOrCancelButton.source = ""
-                        centralPanelLoader.item.centralPanelLoader_2.source = "qrc:/CookBookPanel.qml"
-                    }
-                } else {
-                    backend.sendTime.disconnect(centralPanelLoader.item.setLocalTime)
-                    backend.sendDate.disconnect(centralPanelLoader.item.setLocalDate)
-                    centralPanelLoader.source = "qrc:/BasePanel.qml"
-                    centralPanelLoader.item.centralPanelLoader_2.source = "qrc:/CookBookPanel.qml"
-                    backend.sendTime.connect(centralPanelLoader.item.setLocalTime)
-
-                }
-            }
+            onActivated:
+                centralPanel.load("CookBookPanel")
         }
 
         BaseButton {
@@ -152,22 +51,8 @@ Window {
             color: "blue"
             anchors.horizontalCenterOffset: parent.width/4
             anchors.verticalCenterOffset: parent.height/3
-            onActivated: {
-                if (centralPanelLoader.source.toString() !== "qrc:/DefaultStatePanel.qml") {
-                    if (centralPanelLoader.item.centralPanelLoader_2.source.toString() !== "qrc:/ManualBakePanel.qml") {
-                        centralPanelLoader.item.cameraButton.source = ""
-                        centralPanelLoader.item.nextOrCancelButton.source = ""
-                        centralPanelLoader.item.centralPanelLoader_2.source = "qrc:/ManualBakePanel.qml"
-                    }
-                } else {
-                    backend.sendTime.disconnect(centralPanelLoader.item.setLocalTime)
-                    backend.sendDate.disconnect(centralPanelLoader.item.setLocalDate)
-                    centralPanelLoader.source = "qrc:/BasePanel.qml"
-                    centralPanelLoader.item.centralPanelLoader_2.source = "qrc:/ManualBakePanel.qml"
-                    backend.sendTime.connect(centralPanelLoader.item.setLocalTime)
-
-                }
-            }
+            onActivated:
+                centralPanel.load("ManualBakePanel")
         }
     }
 
@@ -194,7 +79,7 @@ Window {
             color: "green"
             anchors.horizontalCenterOffset: -parent.width/4
             onActivated: {
-                console.log(color)
+                centralPanel.load("DefaultStatePanel")
             }
         }
 
@@ -235,10 +120,30 @@ Window {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.left: leftPanel.right
+        property Loader cpl: centralPanelLoader
+
+        function load(str) {
+            if (str === "DefaultStatePanel") {
+                centralPanelLoader.source = "qrc:/DefaultStatePanel.qml"
+            } else {
+                centralPanelLoader.source = "qrc:/BasePanel.qml"
+                if (str === "CookBookPanel") {
+                    centralPanelLoader.item.loadCookBook()
+                } else if (str === "ManualBakePanel") {
+                    centralPanelLoader.item.loadManualBake()
+                } else if (str === "TabMenuPanel") {
+                    centralPanelLoader.item.loadTabMenu()
+                } else if (str === "RunningPanel") {
+                    centralPanelLoader.item.loadRunning()
+                } else if (str === "CameraPreview") {
+                    centralPanelLoader.item.cameraPreview()
+                }
+            }
+        }
+
         Loader {
             id: centralPanelLoader
             anchors.fill: parent
-            //anchors.centerIn: parent
         }
     }
 }

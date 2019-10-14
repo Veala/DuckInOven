@@ -7,15 +7,16 @@ Item {
     property var h2
     property var m1
     property var m2
-    signal setTime(var time)
-    function getTime(time) {
-        timeText.curText = time
+    function getTime() {
+        timeText.curText = backend.time
     }
 
     Component.onCompleted: {
         h1="H"; h2="H"; m1="M"; m2="M"
         var str = "%1%2:%3%4"
         timeText.curText = str.arg(h1).arg(h2).arg(m1).arg(m2)
+        timeText.curText = backend.time
+        basePanel.setStatus("Status: time settings")
     }
 
     function changeDate(HM) {
@@ -27,7 +28,7 @@ Item {
         timeText.curText = str.arg(h1).arg(h2).arg(m1).arg(m2)
         pos+=1
         if (pos===4) pos =0;
-        setTime(timeText.curText)
+        backend.time = timeText.curText
     }
 
     Text {
@@ -46,7 +47,6 @@ Item {
 
     NumPadButton {
         timeTxt: "1"
-        //text: "1"
         anchors.horizontalCenterOffset: -1/2*parent.width/2
         onActivated:    changeDate(timeTxt)
     }

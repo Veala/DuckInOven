@@ -3,12 +3,16 @@
 
 BackEnd::BackEnd(QObject *parent) : QObject(parent)
 {
-    timer.setInterval(1000);
-    connect(&timer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
-    timer.start();
+    localTimer.setInterval(1000);
+    cookingTimer.setInterval(1000);
+    connect(&localTimer, SIGNAL(timeout()), this, SLOT(localTimerTimeout()));
+    connect(&cookingTimer, SIGNAL(timeout()), this, SLOT(cookingTimerTimeout()));
+    connect(this, SIGNAL(cookingChanged()), SLOT(fromCookingSlot()));
+    localTimer.start();
     timerSymbol = 1;
     m_temp = 425;
     m_time = "HH:MM";
+    m_cooking = 0;
 }
 
 QString BackEnd::time()
@@ -43,15 +47,72 @@ void BackEnd::setTemp(const int &temp)
     emit tempChanged();
 }
 
-void BackEnd::timerTimeout()
+int BackEnd::cooking()
+{
+    return m_cooking;
+}
+
+void BackEnd::setCooking(const int &cooking)
+{
+    if (cooking == m_cooking)
+        return;
+
+    m_cooking = cooking;
+    emit cookingChanged();
+}
+
+QString BackEnd::status()
+{
+    return m_status;
+}
+
+void BackEnd::setStatus(const QString &status)
+{
+    if (status == m_status)
+        return;
+
+    m_status = status;
+    emit statusChanged();
+}
+
+void BackEnd::localTimerTimeout()
 {
     QDateTime local(QDateTime::currentDateTime());
-    emit sendDate(local.toString(tr("dddd, MMMM yy")));
+    emit sendLocalDate(local.toString(tr("dddd, MMMM yy")));
     if (timerSymbol == 1) {
-        emit sendTime(local.toString(tr("hh:mm AP")));
+        emit sendLocalTime(local.toString(tr("hh:mm AP")));
         timerSymbol=0;
     } else {
-        emit sendTime(local.toString(tr("hh mm AP")));
+        emit sendLocalTime(local.toString(tr("hh mm AP")));
         timerSymbol=1;
     }
+}
+
+void BackEnd::cookingTimerTimeout()
+{
+    if (cookingTime == m_time)
+        cookingTimer.stop();
+    QDateTime local(QDateTime::currentDateTime());
+    if (timerSymbol == 1) {
+        emit sendCookingTime(local.toString(tr("hh:mm AP")));
+        timerSymbol=0;
+    } else {
+        emit sendCookingTime(local.toString(tr("hh mm AP")));
+        timerSymbol=1;
+    }
+}
+
+void BackEnd::fromCookingSlot()
+{
+    if (m_cooking == 1) {
+        if(!cookingTimer.isActive()) {
+            cookingTimer.start();
+            cookingTime="00:00";
+        }
+    } else if (m_cooking == 0) {
+        if(cookingTimer.isActive()) {
+            cookingTimer.stop();
+        }
+    }
+
 }

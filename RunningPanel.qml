@@ -1,12 +1,18 @@
 import QtQuick 2.0
 
 Item {
-    id: manualBakePanel
+    id: runningPanel
     anchors.fill: parent
     property int temp
     property int time
     property string tempStr: qsTr("%1°F")
     property string timeStr: qsTr("%1:%2")
+    Component.onCompleted: {
+        tempText.text = qsTr("%1°F").arg(backend.temp)
+        basePanel.setStatus("Status: cooking...")
+
+    }
+
     Text {
         id: tempText
         color: "#f2f2f2"
