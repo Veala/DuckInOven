@@ -11,5 +11,9 @@
         <file>TimeNumPad.qml</file>
         <file>NumPadButton.qml</file>
         <file>TabButtonDIO.qml</file>
+        <file>RunningPanel.qml</file>
+        <file>CameraPreview.qml</file>
+        <file>BottomButton1.qml</file>
+        <file>BottomButton2.qml</file>
     </qresource>
 </RCC>

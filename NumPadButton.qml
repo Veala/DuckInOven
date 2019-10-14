@@ -1,7 +1,7 @@
 import QtQuick 2.0
 
 Rectangle {
-    height: parent.height/6
+    height: parent.height/5
     width: height
     color: "#51504f"
     border.color: "#f2f2f2"
@@ -14,7 +14,7 @@ Rectangle {
     Text {
         id: text
         color: "#f2f2f2"
-        font.pixelSize: 36
+        font.pixelSize: 16
         text: timeTxt
         anchors.centerIn: parent
         //anchors.fill: parent

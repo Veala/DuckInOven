@@ -7,6 +7,10 @@ Item {
     property var h2
     property var m1
     property var m2
+    signal setTime(var time)
+    function getTime(time) {
+        timeText.curText = time
+    }
 
     Component.onCompleted: {
         h1="H"; h2="H"; m1="M"; m2="M"
@@ -23,6 +27,7 @@ Item {
         timeText.curText = str.arg(h1).arg(h2).arg(m1).arg(m2)
         pos+=1
         if (pos===4) pos =0;
+        setTime(timeText.curText)
     }
 
     Text {
@@ -30,7 +35,7 @@ Item {
         property var curText: qsTr("%1%2:%3%4")
         text: curText
         color: "#71e51a"
-        font.pixelSize: parent.width/(20/2.5)
+        font.pixelSize: parent.width/(30/2.5)
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right

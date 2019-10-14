@@ -6,13 +6,15 @@ Item {
     anchors.verticalCenter: parent.verticalCenter
     property var buttonText: txt.text
     anchors.horizontalCenter: parent.horizontalCenter
-    Component.onCompleted: {
-        rect.color = "#9c9c9c"
-        txt.color = "#9c9c9c"
-    }
+
+//    Component.onCompleted: {
+//        rect.color = "#9c9c9c"
+//        txt.color = "#9c9c9c"
+//    }
 
     Rectangle {
         id: rect
+        color: "#9c9c9c"
         border.width: 0
         anchors.top: parent.top
         anchors.left: parent.left
@@ -21,6 +23,7 @@ Item {
     }
     Text {
         id: txt
+        color: "#9c9c9c"
         text: buttonText
         font.pixelSize: 18
         anchors.centerIn: parent
@@ -43,6 +46,7 @@ Item {
     }
 
     MouseArea {
+        id: area
         anchors.fill: parent
         onPressed: parent.activated()
     }
