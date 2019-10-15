@@ -20,10 +20,23 @@ Item {
     }
 
     function changeDate(HM) {
-        if (pos === 0) h1=HM
-        if (pos === 1) h2=HM
-        if (pos === 2) m1=HM
-        if (pos === 3) m2=HM
+        if (pos === 0) {
+            h1="H"; h2="H"; m1="M"; m2="M"
+            if (HM > "2") return;
+            //if (HM === "2" && h2 > "3") return;
+            h1=HM
+        }
+        if (pos === 1) {
+            if (h1 === "2" && HM > "3") return;
+            h2=HM
+        }
+        if (pos === 2) {
+            if (HM > "5") return;
+            m1=HM
+        }
+        if (pos === 3) {
+            m2=HM
+        }
         var str = "%1%2:%3%4"
         timeText.curText = str.arg(h1).arg(h2).arg(m1).arg(m2)
         pos+=1

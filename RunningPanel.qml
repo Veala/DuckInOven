@@ -7,10 +7,19 @@ Item {
     property int time
     property string tempStr: qsTr("%1°F")
     property string timeStr: qsTr("%1:%2")
+    function setTime(t, constValSecs, secs) {
+        timeText.text = t
+        powerRect2.width = 0.9*runningPanel.width*secs/constValSecs
+    }
+
     Component.onCompleted: {
         tempText.text = qsTr("%1°F").arg(backend.temp)
         basePanel.setStatus("Status: cooking...")
+        backend.sendCookingTime.connect(runningPanel.setTime)
+    }
 
+    Component.onDestruction: {
+        backend.sendCookingTime.disconnect(runningPanel.setTime)
     }
 
     Text {
@@ -28,7 +37,7 @@ Item {
     Text {
         id: timeText
         color: "#f2f2f2"
-        text: "22:31"
+        text: "00:00"
         font.pixelSize: parent.width/(25/2)
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
@@ -47,6 +56,16 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: 1/2*parent.height/2
+    }
+
+    Rectangle {
+        id: powerRect2
+        border.width: 0
+        color: "#71e51a"
+        radius: height/2
+        anchors.top: powerRect.top
+        anchors.bottom: powerRect.bottom
+        anchors.left: powerRect.left
     }
 
 }

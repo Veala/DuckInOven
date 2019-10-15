@@ -27,7 +27,8 @@ public:
 signals:
     void sendLocalTime(QString t);
     void sendLocalDate(QString d);
-    void sendCookingTime(QString t);
+    void sendCookingTime(QString t, int constVal, int secs);
+    void sendCookingStatus(QString s);
 
     void timeChanged();
     void tempChanged();
@@ -39,11 +40,14 @@ public slots:
     void cookingTimerTimeout();
     void fromCookingSlot();
 private:
-    int timerSymbol;
+    int timerSymbol, timerSymbol2;
     QTimer localTimer, cookingTimer;
     int m_temp;
-    QString m_time, m_status, cookingTime;
+    QString m_time, m_status;
+    QTime cookingTime;
     int m_cooking;
+    int constValSecs;
+    int curSec;
 };
 
 #endif // BACKEND_H

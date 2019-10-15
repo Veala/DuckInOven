@@ -7,11 +7,6 @@ Item {
     property var buttonText: txt.text
     anchors.horizontalCenter: parent.horizontalCenter
 
-//    Component.onCompleted: {
-//        rect.color = "#9c9c9c"
-//        txt.color = "#9c9c9c"
-//    }
-
     Rectangle {
         id: rect
         color: "#9c9c9c"

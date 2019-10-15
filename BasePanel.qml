@@ -37,6 +37,7 @@ Item {
         nextOrCancelButton.source = "qrc:/BottomButton1.qml"
         cameraButton.source = "qrc:/BottomButton2.qml"
         nextOrCancelButton.item.txt = "CANCEL"
+        backend.cooking = 1
     }
     function cameraPreview() {
         if (centralPanelLoader_2.source.toString() !== "qrc:/CameraPreview.qml")
@@ -47,9 +48,15 @@ Item {
 
     Component.onCompleted: {
         backend.sendLocalTime.connect(basePanel.setLocalTime)
+        backend.sendCookingStatus.connect(basePanel.setStatus)
     }
     Component.onDestruction: {
+        console.log("Component.onDestruction: BasePanel")
         backend.sendLocalTime.disconnect(basePanel.setLocalTime)
+        backend.sendCookingStatus.disconnect(basePanel.setStatus)
+        centralPanelLoader_2.source = ""
+        nextOrCancelButton.source = ""
+        cameraButton.source = ""
     }
 
     Rectangle {

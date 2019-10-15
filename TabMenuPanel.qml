@@ -21,6 +21,11 @@ Item {
         temperature.activated()
     }
 
+    Component.onDestruction: {
+        //console.log("Component.onDestruction: TabMenuPanel")
+        tabMenuPanelLoader.source = ""
+    }
+
     Rectangle {
         id: tabMenu
         color: "#393939"

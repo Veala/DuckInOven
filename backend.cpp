@@ -10,6 +10,7 @@ BackEnd::BackEnd(QObject *parent) : QObject(parent)
     connect(this, SIGNAL(cookingChanged()), SLOT(fromCookingSlot()));
     localTimer.start();
     timerSymbol = 1;
+    timerSymbol2 = 1;
     m_temp = 425;
     m_time = "HH:MM";
     m_cooking = 0;
@@ -49,11 +50,13 @@ void BackEnd::setTemp(const int &temp)
 
 int BackEnd::cooking()
 {
+    qDebug() << "int BackEnd::cooking()";
     return m_cooking;
 }
 
 void BackEnd::setCooking(const int &cooking)
 {
+    qDebug() << "void BackEnd::setCooking(const int &cooking)";
     if (cooking == m_cooking)
         return;
 
@@ -90,15 +93,23 @@ void BackEnd::localTimerTimeout()
 
 void BackEnd::cookingTimerTimeout()
 {
-    if (cookingTime == m_time)
+    cookingTime = cookingTime.addSecs(1);
+    curSec+=1;
+
+    if (cookingTime.toString(tr("hh:mm")) == m_time) {
         cookingTimer.stop();
-    QDateTime local(QDateTime::currentDateTime());
-    if (timerSymbol == 1) {
-        emit sendCookingTime(local.toString(tr("hh:mm AP")));
-        timerSymbol=0;
+        emit sendCookingTime(cookingTime.toString(tr("hh:mm")), constValSecs, curSec);
+        emit sendCookingStatus("Duck is cooked!");
+        m_cooking=0;
+        return;
+    }
+
+    if (timerSymbol2 == 1) {
+        emit sendCookingTime(cookingTime.toString(tr("hh:mm")), constValSecs, curSec);
+        timerSymbol2=0;
     } else {
-        emit sendCookingTime(local.toString(tr("hh mm AP")));
-        timerSymbol=1;
+        emit sendCookingTime(cookingTime.toString(tr("hh mm")), constValSecs, curSec);
+        timerSymbol2=1;
     }
 }
 
@@ -106,8 +117,12 @@ void BackEnd::fromCookingSlot()
 {
     if (m_cooking == 1) {
         if(!cookingTimer.isActive()) {
+            timerSymbol2=0;
+            cookingTime.setHMS(0,0,0);
+            QTime time = QTime::fromString(m_time,"hh:mm");
+            constValSecs = time.hour()*3600 + time.minute()*60;
+            curSec = 0;
             cookingTimer.start();
-            cookingTime="00:00";
         }
     } else if (m_cooking == 0) {
         if(cookingTimer.isActive()) {

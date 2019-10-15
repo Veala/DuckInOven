@@ -6,8 +6,17 @@ Window {
     visible: true
     width: 1000
     height: 285
+    id: win
+
+    function setState(state) {
+        console.log(state)
+    }
 
     Component.onCompleted:  centralPanel.load("DefaultStatePanel")
+    Component.onDestruction: {
+        ////console.log("Component.onDestruction: Window")
+        centralPanelLoader.source = ""
+    }
 
     BackEnd {
         id: backend

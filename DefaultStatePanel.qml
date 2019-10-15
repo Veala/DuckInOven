@@ -15,6 +15,7 @@ Item {
     }
 
     Component.onDestruction: {
+        //console.log("Component.onDestruction: DefaultStatePanel")
         backend.sendLocalTime.disconnect(defaultStatePanel.setLocalTime)
         backend.sendLocalDate.disconnect(defaultStatePanel.setLocalDate)
     }
