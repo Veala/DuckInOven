@@ -15,6 +15,7 @@ Window {
     Component.onCompleted:  centralPanel.load("DefaultStatePanel")
     Component.onDestruction: {
         ////console.log("Component.onDestruction: Window")
+//        centralPanelLoader.sourceComponent = undefined
         centralPanelLoader.source = ""
     }
 
@@ -133,8 +134,10 @@ Window {
 
         function load(str) {
             if (str === "DefaultStatePanel") {
+//                centralPanelLoader.sourceComponent = undefined
                 centralPanelLoader.source = "qrc:/DefaultStatePanel.qml"
             } else {
+//                centralPanelLoader.sourceComponent = undefined
                 centralPanelLoader.source = "qrc:/BasePanel.qml"
                 if (str === "CookBookPanel") {
                     centralPanelLoader.item.loadCookBook()
