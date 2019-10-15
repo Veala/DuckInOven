@@ -23,8 +23,6 @@ Rectangle {
             if (txt === "NEXT") {
                 centralPanelLoader_2.item.nextButton()
             } else {
-                win.setState("The state is set")
-                backend.cooking = 0
                 centralPanel.load("DefaultStatePanel")
             }
 

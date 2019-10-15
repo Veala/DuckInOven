@@ -49,11 +49,15 @@ Item {
 //        nextOrCancelButton.sourceComponent = undefined
 //        cameraButton.sourceComponent = undefined
 
+        if (backend.cooking === 0) {
+            backend.cooking = 1
+            globalState.state = "cooking"
+        }
         centralPanelLoader_2.source = "qrc:/RunningPanel.qml"
         nextOrCancelButton.source = "qrc:/BottomButton1.qml"
         cameraButton.source = "qrc:/BottomButton2.qml"
         nextOrCancelButton.item.txt = "CANCEL"
-        backend.cooking = 1
+        cameraButton.item.state = "default"
     }
     function cameraPreview() {
         if (centralPanelLoader_2.source.toString() !== "qrc:/CameraPreview.qml") {

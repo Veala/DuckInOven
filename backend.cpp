@@ -99,7 +99,7 @@ void BackEnd::cookingTimerTimeout()
     if (cookingTime.toString(tr("hh:mm")) == m_time) {
         cookingTimer.stop();
         emit sendCookingTime(cookingTime.toString(tr("hh:mm")), constValSecs, curSec);
-        emit sendCookingStatus("Duck is cooked!");
+        emit sendCookingStatus("Status: Duck is cooked!");
         m_cooking=0;
         return;
     }
@@ -123,6 +123,7 @@ void BackEnd::fromCookingSlot()
             constValSecs = time.hour()*3600 + time.minute()*60;
             curSec = 0;
             cookingTimer.start();
+            emit sendCookingStatus("Status: cooking...");
         }
     } else if (m_cooking == 0) {
         if(cookingTimer.isActive()) {

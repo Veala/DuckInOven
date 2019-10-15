@@ -15,5 +15,37 @@
         <file>CameraPreview.qml</file>
         <file>BottomButton1.qml</file>
         <file>BottomButton2.qml</file>
+        <file>pic/BluetoothButton_default.png</file>
+        <file>pic/BluetoothButton_inactive.png</file>
+        <file>pic/CameraButton_active1.png</file>
+        <file>pic/CameraButton_active2.png</file>
+        <file>pic/CameraButton_default.png</file>
+        <file>pic/CookBookButton_active2.png</file>
+        <file>pic/CookBookButton_default.png</file>
+        <file>pic/CookBookButton_inactive.png</file>
+        <file>pic/Light_active1.png</file>
+        <file>pic/Light_active2.png</file>
+        <file>pic/Light_default.png</file>
+        <file>pic/Light_inactive.png</file>
+        <file>pic/MoreButton_active2.png</file>
+        <file>pic/MoreButton_default.png</file>
+        <file>pic/MoreButton_inactive.png</file>
+        <file>pic/OvenButton_active2.png</file>
+        <file>pic/OvenButton_default.png</file>
+        <file>pic/OvenButton_inactive.png</file>
+        <file>pic/PowerButton_active1.png</file>
+        <file>pic/PowerButton_active2.png</file>
+        <file>pic/PowerButton_default.png</file>
+        <file>pic/SettingsButton_default.png</file>
+        <file>pic/SettingsButton_inactive.png</file>
+        <file>pic/TimerButton_default.png</file>
+        <file>pic/TimerButton_inactive.png</file>
+        <file>pic/WifiButton_default.png</file>
+        <file>pic/WifiButton_inactive.png</file>
+        <file>pic/Duck.png</file>
+        <file>pic/BluetoothButton_active1.png</file>
+        <file>pic/BluetoothButton_active2.png</file>
+        <file>pic/WifiButton_active1.png</file>
+        <file>pic/WifiButton_active2.png</file>
     </qresource>
 </RCC>

@@ -14,8 +14,14 @@ Item {
 
     Component.onCompleted: {
         tempText.text = qsTr("%1°F").arg(backend.temp)
-        basePanel.setStatus("Status: cooking...")
         backend.sendCookingTime.connect(runningPanel.setTime)
+        if (globalState.state === "cooked") {
+            basePanel.setStatus("Status: Duck is cooked!")
+            timeText.text = backend.time
+            powerRect2.width = powerRect.width
+            return
+        }
+        basePanel.setStatus("Status: cooking...")
     }
 
     Component.onDestruction: {
