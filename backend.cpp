@@ -151,7 +151,7 @@ QString BackEnd::activateButton()
 void BackEnd::setActivateButton(const QString &activateButton)
 {
     if (activateButton == m_activateButton) {
-        qDebug() << "The same button is cliked: " << m_activateButton;
+        qDebug() << "button: " << m_activateButton;
         return;
     }
 
@@ -274,5 +274,5 @@ void BackEnd::wifiChangedSlot()
 
 void BackEnd::activateButtonChangedSlot()
 {
-    qDebug() << "Activated button: " << m_activateButton;
+    qDebug() << "button: " << m_activateButton;
 }

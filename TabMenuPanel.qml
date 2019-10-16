@@ -22,8 +22,6 @@ Item {
     }
 
     Component.onDestruction: {
-        //console.log("Component.onDestruction: TabMenuPanel")
-//        tabMenuPanelLoader.sourceComponent = undefined
         tabMenuPanelLoader.source = ""
     }
 
@@ -42,7 +40,6 @@ Item {
 
             onActivated: {
                 timer.disactivated()
-//                tabMenuPanelLoader.sourceComponent = undefined
                 tabMenuPanelLoader.source = "qrc:/TempSelector.qml"
             }
         }
@@ -52,7 +49,6 @@ Item {
             Component.onCompleted: buttonText = qsTr("Timer")
             onActivated: {
                 temperature.disactivated()
-//                tabMenuPanelLoader.sourceComponent = undefined
                 tabMenuPanelLoader.source = "qrc:/TimeNumPad.qml"
             }
         }

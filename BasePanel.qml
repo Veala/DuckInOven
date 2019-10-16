@@ -9,30 +9,18 @@ Item {
         statusText.text = stat
     }
     function loadCookBook() {
-//        centralPanelLoader_2.sourceComponent = undefined
-//        nextOrCancelButton.sourceComponent = undefined
-//        cameraButton.sourceComponent = undefined
-
         centralPanelLoader_2.source = "qrc:/CookBookPanel.qml"
         nextOrCancelButton.source = ""
         cameraButton.source = ""
     }
 
     function loadManualBake() {
-//        centralPanelLoader_2.sourceComponent = undefined
-//        nextOrCancelButton.sourceComponent = undefined
-//        cameraButton.sourceComponent = undefined
-
         centralPanelLoader_2.source = "qrc:/ManualBakePanel.qml"
         nextOrCancelButton.source = ""
         cameraButton.source = ""
     }
 
     function loadTabMenu() {
-//        centralPanelLoader_2.sourceComponent = undefined
-//        nextOrCancelButton.sourceComponent = undefined
-//        cameraButton.sourceComponent = undefined
-
         centralPanelLoader_2.source = "qrc:/TabMenuPanel.qml"
         nextOrCancelButton.source = "qrc:/BottomButton1.qml"
         cameraButton.source = ""
@@ -45,9 +33,6 @@ Item {
             basePanel.setStatus("Status: time incorrect")
             return
         }
-//        centralPanelLoader_2.sourceComponent = undefined
-//        nextOrCancelButton.sourceComponent = undefined
-//        cameraButton.sourceComponent = undefined
 
         if (backend.cooking === 0) {
             backend.cooking = 1
@@ -61,11 +46,9 @@ Item {
     }
     function cameraPreview() {
         if (centralPanelLoader_2.source.toString() !== "qrc:/CameraPreview.qml") {
-//            centralPanelLoader_2.sourceComponent = undefined
             centralPanelLoader_2.source = "qrc:/CameraPreview.qml"
         }
         else {
-//            centralPanelLoader_2.sourceComponent = undefined
             centralPanelLoader_2.source = "qrc:/RunningPanel.qml"
         }
     }
@@ -75,13 +58,8 @@ Item {
         backend.sendCookingStatus.connect(basePanel.setStatus)
     }
     Component.onDestruction: {
-        console.log("Component.onDestruction: BasePanel")
         backend.sendLocalTime.disconnect(basePanel.setLocalTime)
         backend.sendCookingStatus.disconnect(basePanel.setStatus)
-        centralPanelLoader_2.sourceComponent = undefined
-        nextOrCancelButton.sourceComponent = undefined
-        cameraButton.sourceComponent = undefined
-
         centralPanelLoader_2.source = ""
         nextOrCancelButton.source = ""
         cameraButton.source = ""
