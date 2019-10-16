@@ -5,6 +5,7 @@ Item {
 
     Component.onCompleted: {
         basePanel.setStatus("Status: manual bake")
+        txt.text = backend.manualBake
     }
 
     Rectangle {
@@ -12,18 +13,18 @@ Item {
         color: "#424241"
         border.width: 1
         border.color: "#c4c4c4"
-        height: 1/4*parent.height
-        width: 1/5*parent.width
+        height: 1.2/4*parent.height
+        width: 2.2/5*parent.width
         //txt.contentWidth + 5
         radius: 1/4*height
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        anchors.horizontalCenterOffset: -parent.width/3
-        anchors.verticalCenterOffset: -parent.height/4
+        anchors.horizontalCenterOffset: -parent.width*0.7/3
+        anchors.verticalCenterOffset: -parent.height*1/4
         Text {
             id: txt
-            font.pixelSize: 10
-            text: qsTr("Manual.\nBake for 2 hours\nat 450 degrees.")
+            font.pixelSize: 13
+            //text: qsTr("Manual.\nBake for 2 hours\nat 450 degrees.")
             color: "#f2f2f2"
             anchors.centerIn: parent
         }

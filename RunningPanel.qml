@@ -10,17 +10,23 @@ Item {
     function setTime(t, constValSecs, secs) {
         timeText.text = t
         powerRect2.width = 0.9*runningPanel.width*secs/constValSecs
+        //tempText.text = qsTr("%1°F").arg(backend.temp)
     }
 
     Component.onCompleted: {
         tempText.text = qsTr("%1°F").arg(backend.temp)
         backend.sendCookingTime.connect(runningPanel.setTime)
         if (globalState.state === "cooked") {
-            basePanel.setStatus("Status: Duck is cooked!")
+            basePanel.setStatus(qsTr("Status: %1 is cooked!").arg(backend.food))
             timeText.text = backend.time
             powerRect2.width = powerRect.width
             return
         }
+        if (globalState.state === "stopped") {
+            basePanel.setStatus(qsTr("Status: stopped"))
+            return
+        }
+
         basePanel.setStatus("Status: cooking...")
     }
 

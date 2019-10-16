@@ -68,8 +68,17 @@ Window {
     BackEnd {
         id: backend
         onSendCookingStatus: {
-            if (s === "Status: Duck is cooked!")
+            var stat = qsTr("Status: %1 is cooked!").arg(food)
+            console.log("xxxx")
+            if (s === stat) {
                 globalState.state = "cooked"
+            } else if (s === qsTr("Status: stopped")) {
+                console.log("yyyy")
+                globalState.state = ""
+                globalState.state = "stopped"
+            } else if (s === qsTr("Status: cooking...")) {
+                powerItem.activated()
+            }
         }
     }
 
@@ -101,8 +110,8 @@ Window {
                     centralPanel.load("RunningPanel")
                 } else if (globalState.state === "cooking") {
                     backend.cooking = 0
-                    centralPanel.load("DefaultStatePanel")
-                    globalState.state = "stopped"
+                    //centralPanel.load("DefaultStatePanel")
+                    //globalState.state = "stopped"
                 }
             }
         }
@@ -116,10 +125,15 @@ Window {
             anchors.horizontalCenterOffset: parent.width/4
             anchors.verticalCenterOffset: -parent.height/3
             onActivated: {
-                cookBookItem.state = "default"
-                manualBakeItem.state = "default"
-                ovenItem.state = "actived2"
-                centralPanel.load("TabMenuPanel")
+                if (ovenItem.state === "default") {
+                    cookBookItem.state = "default"
+                    manualBakeItem.state = "default"
+                    ovenItem.state = "actived2"
+                    centralPanel.load("TabMenuPanel")
+                } else if(ovenItem.state === "actived2") {
+                    ovenItem.state = "default"
+                    centralPanel.load("DefaultStatePanel")
+                }
             }
         }
 
@@ -131,10 +145,15 @@ Window {
             inactiveImage:"qrc:/pic/CookBookButton_inactive.png"
             anchors.horizontalCenterOffset: parent.width/4
             onActivated: {
-                cookBookItem.state = "actived2"
-                manualBakeItem.state = "default"
-                ovenItem.state = "default"
-                centralPanel.load("CookBookPanel")
+                if (cookBookItem.state === "default") {
+                    cookBookItem.state = "actived2"
+                    manualBakeItem.state = "default"
+                    ovenItem.state = "default"
+                    centralPanel.load("CookBookPanel")
+                } else if (cookBookItem.state === "actived2") {
+                    cookBookItem.state = "default"
+                    centralPanel.load("DefaultStatePanel")
+                }
             }
         }
 
@@ -147,10 +166,15 @@ Window {
             anchors.horizontalCenterOffset: parent.width/4
             anchors.verticalCenterOffset: parent.height/3
             onActivated: {
-                cookBookItem.state = "default"
-                manualBakeItem.state = "actived2"
-                ovenItem.state = "default"
-                centralPanel.load("ManualBakePanel")
+                if (manualBakeItem.state === "default") {
+                    cookBookItem.state = "default"
+                    manualBakeItem.state = "actived2"
+                    ovenItem.state = "default"
+                    centralPanel.load("ManualBakePanel")
+                } else if (manualBakeItem.state === "actived2") {
+                    manualBakeItem.state = "default"
+                    centralPanel.load("DefaultStatePanel")
+                }
             }
         }
     }
@@ -211,10 +235,13 @@ Window {
             anchors.horizontalCenterOffset: parent.width/4
             anchors.verticalCenterOffset: -parent.height/3
             onActivated: {
-                if (bluetoothItem.state === "default")
+                if (bluetoothItem.state === "default") {
                     bluetoothItem.state = "actived1"
-                else
+                    backend.bluetooth = 1
+                } else {
                     bluetoothItem.state = "default"
+                    backend.bluetooth = 0
+                }
             }
         }
 
@@ -226,10 +253,13 @@ Window {
             inactiveImage:"qrc:/pic/WifiButton_inactive.png"
             anchors.horizontalCenterOffset: parent.width/4
             onActivated: {
-                if (wifiItem.state === "default")
+                if (wifiItem.state === "default") {
                     wifiItem.state = "actived1"
-                else
+                    backend.wifi = 1
+                } else {
                     wifiItem.state = "default"
+                    backend.wifi = 0
+                }
             }
         }
     }

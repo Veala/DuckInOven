@@ -47,5 +47,6 @@
         <file>pic/BluetoothButton_active2.png</file>
         <file>pic/WifiButton_active1.png</file>
         <file>pic/WifiButton_active2.png</file>
+        <file>Food.qml</file>
     </qresource>
 </RCC>
