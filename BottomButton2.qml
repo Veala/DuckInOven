@@ -35,6 +35,8 @@ Rectangle {
         anchors.centerIn: parent
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
+        height: parent.height/1.87
+        width: parent.height/1.7
     }
 
     MouseArea {
