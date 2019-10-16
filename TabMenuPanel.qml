@@ -9,7 +9,7 @@ Item {
         if (tabMenuPanelLoader.source.toString() === "qrc:/TempSelector.qml") {
             timer.activated()
         } else if (tabMenuPanelLoader.source.toString() === "qrc:/TimeNumPad.qml") {
-            if (backend.time[0] === "H" || backend.time[1] === "H" || backend.time[3] === "M" || backend.time[4] === "M") {
+            if (backend.time[0] === "H" || backend.time[1] === "H" || backend.time[3] === "M" || backend.time[4] === "M" || backend.time === "00:00") {
                 basePanel.setStatus("Status: time incorrect")
                 return
             }

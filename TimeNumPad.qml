@@ -22,16 +22,35 @@ Item {
     function changeDate(HM) {
         if (pos === 0) {
             h1="H"; h2="H"; m1="M"; m2="M"
-            if (HM > "2") return;
+            if (HM > "2") {
+                num0.animate()
+                num1.animate()
+                num2.animate()
+                return;
+            }
             //if (HM === "2" && h2 > "3") return;
             h1=HM
         }
         if (pos === 1) {
-            if (h1 === "2" && HM > "3") return;
+            if (h1 === "2" && HM > "3") {
+                num0.animate()
+                num1.animate()
+                num2.animate()
+                num3.animate()
+                return;
+            }
             h2=HM
         }
         if (pos === 2) {
-            if (HM > "5") return;
+            if (HM > "5") {
+                num0.animate()
+                num1.animate()
+                num2.animate()
+                num3.animate()
+                num4.animate()
+                num5.animate()
+                return;
+            }
             m1=HM
         }
         if (pos === 3) {
@@ -59,53 +78,63 @@ Item {
     }
 
     NumPadButton {
+        id: num1
         timeTxt: "1"
         anchors.horizontalCenterOffset: -1/2*parent.width/2
         onActivated:    changeDate(timeTxt)
     }
     NumPadButton {
+        id: num2
         timeTxt: "2"
         anchors.horizontalCenterOffset: -1/4*parent.width/2
         onActivated:    changeDate(timeTxt)
     }
     NumPadButton {
+        id: num3
         timeTxt: "3"
         onActivated:    changeDate(timeTxt)
     }
     NumPadButton {
+        id: num4
         timeTxt: "4"
         anchors.horizontalCenterOffset: 1/4*parent.width/2
         onActivated:    changeDate(timeTxt)
     }
     NumPadButton {
+        id: num5
         timeTxt: "5"
         anchors.horizontalCenterOffset: 1/2*parent.width/2
         onActivated:    changeDate(timeTxt)
     }
     NumPadButton {
+        id: num6
         timeTxt: "6"
         anchors.horizontalCenterOffset: -1/2*parent.width/2
         anchors.verticalCenterOffset: 1/2*parent.height/2
         onActivated:    changeDate(timeTxt)
     }
     NumPadButton {
+        id: num7
         timeTxt: "7"
         anchors.horizontalCenterOffset: -1/4*parent.width/2
         anchors.verticalCenterOffset: 1/2*parent.height/2
         onActivated:    changeDate(timeTxt)
     }
     NumPadButton {
+        id: num8
         timeTxt: "8"
         anchors.verticalCenterOffset: 1/2*parent.height/2
         onActivated:    changeDate(timeTxt)
     }
     NumPadButton {
+        id: num9
         timeTxt: "9"
         anchors.horizontalCenterOffset: 1/4*parent.width/2
         anchors.verticalCenterOffset: 1/2*parent.height/2
         onActivated:    changeDate(timeTxt)
     }
     NumPadButton {
+        id: num0
         timeTxt: "0"
         anchors.horizontalCenterOffset: 1/2*parent.width/2
         anchors.verticalCenterOffset: 1/2*parent.height/2

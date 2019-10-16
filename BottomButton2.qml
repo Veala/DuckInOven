@@ -9,6 +9,7 @@ Rectangle {
     property string activeImage1: "qrc:/pic/CameraButton_active1.png"
     property string activeImage2: "qrc:/pic/CameraButton_active2.png"
     property string inactiveImage
+    property string name
 
     Component.onCompleted: {
         state = "default"
@@ -39,6 +40,7 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         onPressed: {
+            backend.activateButton = "cameraItem"
             centralPanel.load("CameraPreview")
             if (parent.state === "default") parent.state = "activated2"
             else parent.state = "default"

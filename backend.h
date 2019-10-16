@@ -16,6 +16,7 @@ class BackEnd : public QObject
     Q_PROPERTY(QString status READ status WRITE setStatus NOTIFY statusChanged)
     Q_PROPERTY(int bluetooth READ bluetooth WRITE setBluetooth NOTIFY bluetoothChanged)
     Q_PROPERTY(int wifi READ wifi WRITE setWifi NOTIFY wifiChanged)
+    Q_PROPERTY(QString activateButton READ activateButton WRITE setActivateButton NOTIFY activateButtonChanged)
 
 public:
     explicit BackEnd(QObject *parent = nullptr);
@@ -36,6 +37,9 @@ public:
     int wifi();
     void setWifi(const int &wifi);
 
+    QString activateButton();
+    void setActivateButton(const QString &activateButton);
+
 signals:
     void sendLocalTime(QString t);
     void sendLocalDate(QString d);
@@ -51,13 +55,20 @@ signals:
     void bluetoothChanged();
     void wifiChanged();
 
+    void activateButtonChanged();
+
 public slots:
     void localTimerTimeout();
     void cookingTimerTimeout();
-    void fromCookingSlot();
+
+    void timeChangedSlot();
+    void tempChangedSlot();
     void foodChangedSlot();
+    void cookingChangedSlot();
     void bluetoothChangedSlot();
     void wifiChangedSlot();
+
+    void activateButtonChangedSlot();
 
 private:
     QTimer localTimer, cookingTimer;
@@ -70,6 +81,8 @@ private:
     QString manualBakeChicken;
     QString manualBakePartridge;
     int m_bluetooth, m_wifi;
+
+    QString m_activateButton;
 };
 
 #endif // BACKEND_H

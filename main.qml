@@ -69,11 +69,9 @@ Window {
         id: backend
         onSendCookingStatus: {
             var stat = qsTr("Status: %1 is cooked!").arg(food)
-            console.log("xxxx")
             if (s === stat) {
                 globalState.state = "cooked"
             } else if (s === qsTr("Status: stopped")) {
-                console.log("yyyy")
                 globalState.state = ""
                 globalState.state = "stopped"
             } else if (s === qsTr("Status: cooking...")) {
@@ -91,6 +89,7 @@ Window {
         width: parent.width/4
         BaseButton {
             id: powerItem
+            name: "powerItem"
             defaultImage: "qrc:/pic/PowerButton_default.png"
             activeImage1: "qrc:/pic/PowerButton_active1.png"
             activeImage2: "qrc:/pic/PowerButton_active2.png"
@@ -118,6 +117,7 @@ Window {
 
         BaseButton {
             id: ovenItem
+            name: "ovenItem"
             defaultImage: "qrc:/pic/OvenButton_default.png"
             activeImage1: ""
             activeImage2: "qrc:/pic/OvenButton_active2.png"
@@ -139,6 +139,7 @@ Window {
 
         BaseButton {
             id: cookBookItem
+            name: "cookBookItem"
             defaultImage: "qrc:/pic/CookBookButton_default.png"
             activeImage1: ""
             activeImage2: "qrc:/pic/CookBookButton_active2.png"
@@ -159,6 +160,7 @@ Window {
 
         BaseButton {
             id: manualBakeItem
+            name: "manualBakeItem"
             defaultImage: "qrc:/pic/MoreButton_default.png"
             activeImage1: ""
             activeImage2: "qrc:/pic/MoreButton_active2.png"
@@ -189,19 +191,18 @@ Window {
 
         BaseButton {
             id: lightItem
+            name: "lightItem"
             defaultImage: "qrc:/pic/Light_default.png"
             activeImage1: "qrc:/pic/Light_active1.png"
             activeImage2: "qrc:/pic/Light_active2.png"
             inactiveImage:"qrc:/pic/Light_inactive.png"
             anchors.horizontalCenterOffset: -parent.width/4
             anchors.verticalCenterOffset: -parent.height/3
-            onActivated: {
-                console.log(color)
-            }
         }
 
         BaseButton {
             id: timerItem
+            name: "timerItem"
             defaultImage: "qrc:/pic/TimerButton_default.png"
             activeImage1: ""
             activeImage2: ""
@@ -215,6 +216,7 @@ Window {
 
         BaseButton {
             id: settingsItem
+            name: "settingsItem"
             defaultImage: "qrc:/pic/SettingsButton_default.png"
             activeImage1: ""
             activeImage2: ""
@@ -222,12 +224,13 @@ Window {
             anchors.horizontalCenterOffset: -parent.width/4
             anchors.verticalCenterOffset: parent.height/3
             onActivated: {
-                console.log(color)
+                console.log("Unknown functionality...")
             }
         }
 
         BaseButton {
             id: bluetoothItem
+            name: "bluetoothItem"
             defaultImage: "qrc:/pic/BluetoothButton_default.png"
             activeImage1: "qrc:/pic/BluetoothButton_active1.png"
             activeImage2: "qrc:/pic/BluetoothButton_active2.png"
@@ -247,6 +250,7 @@ Window {
 
         BaseButton {
             id: wifiItem
+            name: "wifiItem"
             defaultImage: "qrc:/pic/WifiButton_default.png"
             activeImage1: "qrc:/pic/WifiButton_active1.png"
             activeImage2: "qrc:/pic/WifiButton_active2.png"

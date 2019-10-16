@@ -6,6 +6,7 @@ Image {
     width: height
     anchors.verticalCenter: parent.verticalCenter
     anchors.horizontalCenter: parent.horizontalCenter
+    property string name
     property string defaultImage
     property string activeImage1
     property string activeImage2
@@ -30,6 +31,8 @@ Image {
     ]
 
     signal activated
+    onActivated: backend.activateButton = name
+
     MouseArea {
         anchors.fill: parent
         onPressed: {

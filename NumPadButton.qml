@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 Rectangle {
+    id: rect
     height: parent.height/5
     width: height
     color: "#51504f"
@@ -10,7 +11,22 @@ Rectangle {
     anchors.verticalCenter: parent.verticalCenter
     anchors.horizontalCenter: parent.horizontalCenter
     property var timeTxt: text.text
+
+    function animate() {
+        animation.running = true;
+    }
+
     signal activated
+    //onActivated:    animate()
+
+    PropertyAnimation {
+        id: animation;
+        target: rect;
+        property: "color";
+        from: "#f6771e"
+        to: "#51504f";
+        duration: 250
+    }
     Text {
         id: text
         color: "#f2f2f2"

@@ -20,6 +20,7 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         onPressed: {
+            backend.activateButton = txt
             if (txt === "NEXT") {
                 centralPanelLoader_2.item.nextButton()
             } else {

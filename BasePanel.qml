@@ -39,7 +39,7 @@ Item {
         nextOrCancelButton.item.txt = "NEXT"
     }
     function loadRunning() {
-        if (backend.time[0] === "H" || backend.time[1] === "H" || backend.time[3] === "M" || backend.time[4] === "M") {
+        if (backend.time[0] === "H" || backend.time[1] === "H" || backend.time[3] === "M" || backend.time[4] === "M" || backend.time === "00:00") {
             centralPanel.load("TabMenuPanel")
             centralPanelLoader_2.item.nextButton()
             basePanel.setStatus("Status: time incorrect")

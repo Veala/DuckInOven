@@ -7,10 +7,14 @@ BackEnd::BackEnd(QObject *parent) : QObject(parent)
     cookingTimer.setInterval(1000);
     connect(&localTimer, SIGNAL(timeout()), this, SLOT(localTimerTimeout()));
     connect(&cookingTimer, SIGNAL(timeout()), this, SLOT(cookingTimerTimeout()));
-    connect(this, SIGNAL(cookingChanged()), SLOT(fromCookingSlot()));
+
+    connect(this, SIGNAL(timeChanged()), SLOT(timeChangedSlot()));
+    connect(this, SIGNAL(tempChanged()), SLOT(tempChangedSlot()));
+    connect(this, SIGNAL(cookingChanged()), SLOT(cookingChangedSlot()));
     connect(this, SIGNAL(foodChanged()), SLOT(foodChangedSlot()));
     connect(this, SIGNAL(bluetoothChanged()), SLOT(bluetoothChangedSlot()));
     connect(this, SIGNAL(wifiChanged()), SLOT(wifiChangedSlot()));
+    connect(this, SIGNAL(activateButtonChanged()), SLOT(activateButtonChangedSlot()));
     localTimer.start();
     timerSymbol = 1;
     timerSymbol2 = 1;
@@ -139,6 +143,22 @@ void BackEnd::setWifi(const int &wifi)
     emit wifiChanged();
 }
 
+QString BackEnd::activateButton()
+{
+    return m_activateButton;
+}
+
+void BackEnd::setActivateButton(const QString &activateButton)
+{
+    if (activateButton == m_activateButton) {
+        qDebug() << "The same button is cliked: " << m_activateButton;
+        return;
+    }
+
+    m_activateButton = activateButton;
+    emit activateButtonChanged();
+}
+
 void BackEnd::localTimerTimeout()
 {
     QDateTime local(QDateTime::currentDateTime());
@@ -162,6 +182,7 @@ void BackEnd::cookingTimerTimeout()
         emit sendCookingTime(cookingTime.toString(tr("hh:mm")), constValSecs, curSec);
         emit sendCookingStatus(QString("Status: %1 is cooked!").arg(m_food));
         m_cooking=0;
+        qDebug() << QString("Status: %1 is cooked!").arg(m_food);
         return;
     }
 
@@ -174,7 +195,17 @@ void BackEnd::cookingTimerTimeout()
     }
 }
 
-void BackEnd::fromCookingSlot()
+void BackEnd::timeChangedSlot()
+{
+    qDebug() << "Time: " << m_time;
+}
+
+void BackEnd::tempChangedSlot()
+{
+    qDebug() << "Temp: " << m_temp;
+}
+
+void BackEnd::cookingChangedSlot()
 {
     if (m_cooking == 1) {
         if(!cookingTimer.isActive()) {
@@ -184,15 +215,17 @@ void BackEnd::fromCookingSlot()
             constValSecs = time.hour()*3600 + time.minute()*60;
             curSec = 0;
             cookingTimer.start();
-            emit sendCookingStatus("Status: cooking...");
+            m_status = "Status: cooking...";
+            emit sendCookingStatus(m_status);
         }
     } else if (m_cooking == 0) {
         if(cookingTimer.isActive()) {
             cookingTimer.stop();
-            sendCookingStatus("Status: stopped");
+            m_status = "Status: stopped";
+            emit sendCookingStatus(m_status);
         }
     }
-
+    qDebug() << m_status;
 }
 
 void BackEnd::foodChangedSlot()
@@ -210,21 +243,21 @@ void BackEnd::foodChangedSlot()
         m_time = "01:30";
         m_temp = 380;
     }
+    qDebug() << QString("Food: %1, time: %2, temp: %3").arg(m_food).arg(m_time).arg(m_temp);
 }
 
 void BackEnd::bluetoothChangedSlot()
 {
-    //bluetooth working
     if (m_bluetooth == 1) {
         qDebug() << "Bluetooth On";
-
-//        for example stop cooking from bluetooth, set time to 00:01, temp to 410 and start cooking
+//------- For example: stop cooking from bluetooth, set time to 00:01, temp to 410 and start cooking -------//
 //        m_cooking = 0;
-//        fromCookingSlot();
+//        cookingChangedSlot();
 //        sendCookingStatus("Status: stopped");
 //        m_time = "00:01";
 //        m_temp = 410;
 //        sendCookingStatus("Status: cooking...");
+//------- For example: stop cooking from bluetooth, set time to 00:01, temp to 410 and start cooking -------//
     } else {
         qDebug() << "Bluetooth Off";
     }
@@ -232,10 +265,14 @@ void BackEnd::bluetoothChangedSlot()
 
 void BackEnd::wifiChangedSlot()
 {
-    //wifi working
     if (m_wifi == 1) {
         qDebug() << "wifi On";
     } else {
         qDebug() << "wifi Off";
     }
+}
+
+void BackEnd::activateButtonChangedSlot()
+{
+    qDebug() << "Activated button: " << m_activateButton;
 }
