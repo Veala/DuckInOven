@@ -276,33 +276,37 @@ Window {
         anchors.left: leftPanel.right
         property var nameOfLoad
 
-        Component.onCompleted: {
-            centralPanelLoader.loaded.connect(finishCreation)
-        }
-
-        Component.onDestruction: {
-            centralPanelLoader.loaded.disconnect(finishCreation)
-        }
-
-        function finishCreation() {
-            if (nameOfLoad !== "DefaultStatePanel")
-                centralPanelLoader.item.load(nameOfLoad);
-        }
-
+        /* -------------------there will be less code if so (here and in basepanel.qml similary):-----------------
         function load(str) {
             nameOfLoad = str
             if (str === "DefaultStatePanel") {
                 centralPanelLoader.source = "qrc:/DefaultStatePanel.qml"
             } else {
                 centralPanelLoader.source = "qrc:/BasePanel.qml"
-                if (centralPanelLoader.status == Loader.Ready)
-                    finishCreation()
+                if (centralPanelLoader.status == Loader.Ready)      //"Loader.Ready" is ok as I see in Qt Assistant. Or it is possible without this line at all.
+                    centralPanelLoader.item.load(centralPanel.nameOfLoad)
+            }
+        }
+        */
+        function load(str) {
+            nameOfLoad = str
+            if (str === "DefaultStatePanel") {
+                centralPanelLoader.source = "qrc:/DefaultStatePanel.qml"
+            } else {
+                if (centralPanelLoader.source.toString() === "qrc:/BasePanel.qml")
+                    centralPanelLoader.item.load(centralPanel.nameOfLoad)
+                else
+                    centralPanelLoader.source = "qrc:/BasePanel.qml"
             }
         }
 
         Loader {
             id: centralPanelLoader
             anchors.fill: parent
+            onLoaded: {
+                if (centralPanel.nameOfLoad !== "DefaultStatePanel")
+                    centralPanelLoader.item.load(centralPanel.nameOfLoad);
+            }
         }
     }
 }

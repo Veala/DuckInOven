@@ -11,6 +11,7 @@ Rectangle {
         id: text
         color: "#f2f2f2"
         font.pixelSize: 15
+        font.family: "Roboto"
         text: txt
         anchors.centerIn: parent
         horizontalAlignment: Text.AlignHCenter

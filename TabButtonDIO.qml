@@ -21,6 +21,7 @@ Item {
         color: "#9c9c9c"
         text: buttonText
         font.pixelSize: 18
+        font.family: "Roboto"
         anchors.centerIn: parent
         anchors.top: rect.bottom
         anchors.bottom: parent.bottom

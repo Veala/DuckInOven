@@ -23,6 +23,7 @@ Item {
         id: timeText
         color: "#f2f2f2"
         font.pixelSize: 60
+        font.family: "Roboto"
         anchors.top: parent.top
         anchors.bottom: parent.verticalCenter
         anchors.left: parent.left
@@ -34,6 +35,7 @@ Item {
         id: dateText
         color: "#f2f2f2"
         font.pixelSize: 20
+        font.family: "Roboto"
         anchors.top: parent.verticalCenter
         anchors.bottom: parent.bottom
         anchors.left: parent.left
