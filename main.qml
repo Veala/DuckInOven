@@ -274,24 +274,29 @@ Window {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.left: leftPanel.right
-        property Loader cpl: centralPanelLoader
+        property var nameOfLoad
+
+        Component.onCompleted: {
+            centralPanelLoader.loaded.connect(finishCreation)
+        }
+
+        Component.onDestruction: {
+            centralPanelLoader.loaded.disconnect(finishCreation)
+        }
+
+        function finishCreation() {
+            if (nameOfLoad !== "DefaultStatePanel")
+                centralPanelLoader.item.load(nameOfLoad);
+        }
 
         function load(str) {
+            nameOfLoad = str
             if (str === "DefaultStatePanel") {
                 centralPanelLoader.source = "qrc:/DefaultStatePanel.qml"
             } else {
                 centralPanelLoader.source = "qrc:/BasePanel.qml"
-                if (str === "CookBookPanel") {
-                    centralPanelLoader.item.loadCookBook()
-                } else if (str === "ManualBakePanel") {
-                    centralPanelLoader.item.loadManualBake()
-                } else if (str === "TabMenuPanel") {
-                    centralPanelLoader.item.loadTabMenu()
-                } else if (str === "RunningPanel") {
-                    centralPanelLoader.item.loadRunning()
-                } else if (str === "CameraPreview") {
-                    centralPanelLoader.item.cameraPreview()
-                }
+                if (centralPanelLoader.status == Loader.Ready)
+                    finishCreation()
             }
         }
 

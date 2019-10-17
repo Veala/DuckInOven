@@ -2,60 +2,86 @@ import QtQuick 2.0
 
 Item {
     id: basePanel
+    property var nameOfLoad
+    property var error: 0
+
     function setLocalTime(time) {
         timeText.text = time
     }
     function setStatus(stat) {
         statusText.text = stat
     }
-    function loadCookBook() {
-        centralPanelLoader_2.source = "qrc:/CookBookPanel.qml"
-        nextOrCancelButton.source = ""
-        cameraButton.source = ""
-    }
 
-    function loadManualBake() {
-        centralPanelLoader_2.source = "qrc:/ManualBakePanel.qml"
-        nextOrCancelButton.source = ""
-        cameraButton.source = ""
+    function finishNextOrCancelButtonCreation() {
+        if (nameOfLoad === "TabMenuPanel")  nextOrCancelButton.item.txt = "NEXT"
+        else nextOrCancelButton.item.txt = "CANCEL"
     }
-
-    function loadTabMenu() {
-        centralPanelLoader_2.source = "qrc:/TabMenuPanel.qml"
-        nextOrCancelButton.source = "qrc:/BottomButton1.qml"
-        cameraButton.source = ""
-        nextOrCancelButton.item.txt = "NEXT"
-    }
-    function loadRunning() {
-        if (backend.time[0] === "H" || backend.time[1] === "H" || backend.time[3] === "M" || backend.time[4] === "M" || backend.time === "00:00") {
-            centralPanel.load("TabMenuPanel")
-            centralPanelLoader_2.item.nextButton()
-            basePanel.setStatus("Status: time incorrect")
-            return
-        }
-
-        if (backend.cooking === 0) {
-            backend.cooking = 1
-            globalState.state = "cooking"
-        }
-        centralPanelLoader_2.source = "qrc:/RunningPanel.qml"
-        nextOrCancelButton.source = "qrc:/BottomButton1.qml"
-        cameraButton.source = "qrc:/BottomButton2.qml"
-        nextOrCancelButton.item.txt = "CANCEL"
+    function finishCameraButtonCreation() {
         cameraButton.item.state = "default"
     }
-    function cameraPreview() {
-        if (centralPanelLoader_2.source.toString() !== "qrc:/CameraPreview.qml") {
-            centralPanelLoader_2.source = "qrc:/CameraPreview.qml"
+    function finishTabMenuPanelCreation() {
+        if (error === 1 && nameOfLoad === "TabMenuPanel") {
+            centralPanelLoader_2.item.nextButton()
+            basePanel.setStatus("Status: time incorrect")
+            error = 0
         }
-        else {
+    }
+
+    function load(str) {
+        nameOfLoad = str
+        if (str === "CookBookPanel") {
+            centralPanelLoader_2.source = "qrc:/CookBookPanel.qml"
+            nextOrCancelButton.source = ""
+            cameraButton.source = ""
+        } else if (str === "ManualBakePanel") {
+            centralPanelLoader_2.source = "qrc:/ManualBakePanel.qml"
+            nextOrCancelButton.source = ""
+            cameraButton.source = ""
+        } else if (str === "TabMenuPanel") {
+            centralPanelLoader_2.source = "qrc:/TabMenuPanel.qml"
+            cameraButton.source = ""
+            nextOrCancelButton.source = "qrc:/BottomButton1.qml"
+            if (nextOrCancelButton.status == Loader.Ready)
+                finishNextOrCancelButtonCreation()
+        } else if (str === "RunningPanel") {
+            if (backend.time[0] === "H" || backend.time[1] === "H" || backend.time[3] === "M" || backend.time[4] === "M" || backend.time === "00:00") {
+                error=1
+                centralPanel.load("TabMenuPanel")
+                if (centralPanelLoader_2.status == Loader.Ready)
+                    finishTabMenuPanelCreation()
+                return
+            }
+            if (backend.cooking === 0) {
+                backend.cooking = 1
+                globalState.state = "cooking"
+            }
             centralPanelLoader_2.source = "qrc:/RunningPanel.qml"
+            nextOrCancelButton.source = "qrc:/BottomButton1.qml"
+            if (nextOrCancelButton.status == Loader.Ready)
+                finishNextOrCancelButtonCreation()
+
+            cameraButton.source = "qrc:/BottomButton2.qml"
+            if (cameraButton.status == Loader.Ready)
+                finishCameraButtonCreation()
+
+        } else if (str === "CameraPreview") {
+            if (centralPanelLoader_2.source.toString() !== "qrc:/CameraPreview.qml") {
+                centralPanelLoader_2.source = "qrc:/CameraPreview.qml"
+            }
+            else {
+                centralPanelLoader_2.source = "qrc:/RunningPanel.qml"
+            }
         }
     }
 
     Component.onCompleted: {
         backend.sendLocalTime.connect(basePanel.setLocalTime)
         backend.sendCookingStatus.connect(basePanel.setStatus)
+
+        nextOrCancelButton.loaded.connect(finishNextOrCancelButtonCreation)
+        cameraButton.loaded.connect(finishCameraButtonCreation)
+        centralPanelLoader_2.loaded.connect(finishTabMenuPanelCreation)
+
     }
     Component.onDestruction: {
         backend.sendLocalTime.disconnect(basePanel.setLocalTime)
@@ -63,6 +89,11 @@ Item {
         centralPanelLoader_2.source = ""
         nextOrCancelButton.source = ""
         cameraButton.source = ""
+
+        nextOrCancelButton.loaded.disconnect(finishNextOrCancelButtonCreation)
+        cameraButton.loaded.disconnect(finishCameraButtonCreation)
+        centralPanelLoader_2.loaded.disconnect(finishTabMenuPanelCreation)
+
     }
 
     Rectangle {
@@ -122,6 +153,5 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.horizontalCenterOffset: 1/2*parent.width/2-width
         }
-
     }
 }
